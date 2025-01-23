@@ -1,13 +1,63 @@
+version: '3.9'
+
 services:
   app:
-    build:
+    # Define o caminho do Dockerfile para construir a imagem do serviço "app"
+    build: 
       context: .
       dockerfile: .docker/Dockerfile
-    container_name: nestjs-app-fly
+    #container_name: nestjs-app-fly
     ports:
-      - "3000:3000"
+      # Mapeia a porta 3000 do container para a porta 3000 do host
+      - "3000"
     volumes:
+      # Mapeia o diretório atual para o diretório /app no container
       - .:/app
+      # Mapeia o diretório node_modules para persistência entre builds
       - /app/node_modules
     environment:
+      # Define a variável de ambiente NODE_ENV como development
       - NODE_ENV=development
+    depends_on:
+      # Define que o serviço "app" depende dos serviços "mongo" e "redis"
+      - mongo
+      - redis
+
+  mongo:
+    # Usa a imagem do MongoDB versão 4.4
+    image: mongo:4.4
+    container_name: mongodb
+    ports:
+      # Mapeia a porta 27017 do container para a porta 27017 do host
+      - "27017:27017"
+    volumes:
+      # Mapeia o volume mongo-data para o diretório /data/db no container
+      - mongo-data:/data/db
+    restart: always
+  
+  redis:
+    # Usa a imagem do Redis versão 6.0
+    image: redis:6.0
+    container_name: redis
+    ports:
+      # Mapeia a porta 6379 do container para a porta 6379 do host
+      - "6379:6379"
+    restart: always
+
+  nginx:
+    # Usa a imagem do Nginx versão 1.19
+    image: nginx:1.19
+    container_name: nginx
+    ports:
+      # Mapeia a porta 80 do container para a porta 80 do host
+      - "80:80"
+    volumes:
+      # Mapeia o arquivo nginx.conf para o diretório de configuração do Nginx no container
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      # Define que o serviço "nginx" depende do serviço "app"
+      - app
+  
+volumes:
+  # Define um volume chamado mongo-data para persistência dos dados do MongoDB
+  mongo-data:
