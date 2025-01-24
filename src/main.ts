@@ -5,14 +5,14 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
-
+   app.setGlobalPrefix('api');
   const config = new DocumentBuilder()
     .setTitle('Fly Identification API')
     .setDescription('API documentation for Fly Identification')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   await app.listen(process.env.PORT ?? 3000);
 }

@@ -20,11 +20,9 @@ export class FlyCharacteristic {
     imageId: string
     
     @ManyToMany(() => FlyGenus, flyGenus => flyGenus.flyCharacteristics)
-    @JoinTable()
     flyGenus: FlyGenus[]
 
     @ManyToMany(() => FlySpecie, flySpecies => flySpecies.flyCharacteristics)
-    @JoinTable()
     flySpecies: FlySpecie[]
 
 

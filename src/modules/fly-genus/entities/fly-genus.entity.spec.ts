@@ -4,7 +4,7 @@ import { FlyGenus } from "./fly-genus.entity";
 describe('FlyGenus Entity', () => {
   it('should generate a unique id before insert', () => {
     const flyGenus = new FlyGenus();
-    flyGenus.genereteId();
+    flyGenus.generateId();
     expect(flyGenus.id).toBeDefined();
     
     expect(flyGenus.id).toHaveLength(64); // SHA-256 hash length
