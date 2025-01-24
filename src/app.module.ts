@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FlyGenusModule } from './modules/fly-genus/fly-genus.module';
 import { AppConfigModule } from './config/config.module';
 import { FlyCharacteristicsModule } from './modules/fly-characteristics/fly-characteristics.module';
+import { FlySpeciesModule } from './modules/fly-species/fly-species.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { FlyCharacteristicsModule } from './modules/fly-characteristics/fly-char
     AppConfigModule,
     FlyCharacteristicsModule,
     FlyGenusModule,
+    FlySpeciesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

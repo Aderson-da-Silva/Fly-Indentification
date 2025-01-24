@@ -1,7 +1,8 @@
 import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from "typeorm";
 import { v4 as uuidv4 } from 'uuid';
 import * as crypto from 'crypto';
-import { FlyGenus } from "src/modules/fly-genus/entities/fly-genus.entity";
+import { FlyGenus } from "../../fly-genus/entities/fly-genus.entity";
+import { FlySpecie } from "../../fly-species/entities/fly-specie.entity";
 
 
 @Entity()
@@ -18,9 +19,13 @@ export class FlyCharacteristic {
     @Column({unique: true, nullable: true})
     imageId: string
     
-    @ManyToMany(() => FlyGenus, flyGenus => flyGenus.flyCharacteristic)
+    @ManyToMany(() => FlyGenus, flyGenus => flyGenus.flyCharacteristics)
     @JoinTable()
     flyGenus: FlyGenus[]
+
+    @ManyToMany(() => FlySpecie, flySpecies => flySpecies.flyCharacteristics)
+    @JoinTable()
+    flySpecies: FlySpecie[]
 
 
     @BeforeInsert()

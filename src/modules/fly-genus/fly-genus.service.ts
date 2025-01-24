@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { UpdateFlyGenusDto } from './dto/update-fly-genus.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FlyGenus } from './entities/fly-genus.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { CreateFlyGenusDto } from './dto/create-fly-genus.dto';
 import { FlyCharacteristic } from 'src/modules/fly-characteristics/entities/fly-characteristic.entity';
 
@@ -27,6 +27,10 @@ export class FlyGenusService {
 
   findOne(id: string): Promise<FlyGenus | null> {
     return this.flyGenusRepository.findOne({where:{id}});
+  }
+
+  findByNameDesc(txt: string): Promise<FlyGenus []> {
+    return this.flyGenusRepository.findBy({name: Like(`%${txt}%`)})
   }
 
  async update(id: string, updateFlyGenusDto: UpdateFlyGenusDto): Promise<FlyGenus | null> {
