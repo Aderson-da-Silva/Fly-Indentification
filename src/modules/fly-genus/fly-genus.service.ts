@@ -5,12 +5,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FlyGenus } from './entities/fly-genus.entity';
 import { Repository } from 'typeorm';
 import { CreateFlyGenusDto } from './dto/create-fly-genus.dto';
+import { FlyCharacteristic } from 'src/modules/fly-characteristics/entities/fly-characteristic.entity';
 
 @Injectable()
 export class FlyGenusService {
   constructor(
     @InjectRepository(FlyGenus)
     private readonly flyGenusRepository: Repository<FlyGenus>,
+    @InjectRepository(FlyCharacteristic)
+    private readonly flyCharacteristic: Repository<FlyCharacteristic>
   ){}
 
   async create(createFlyGenuDto: CreateFlyGenusDto): Promise<FlyGenus> {
@@ -22,15 +25,16 @@ export class FlyGenusService {
     return this.flyGenusRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} flyGenu`;
+  findOne(id: string): Promise<FlyGenus | null> {
+    return this.flyGenusRepository.findOne({where:{id}});
   }
 
-  update(id: number, updateFlyGenuDto: UpdateFlyGenusDto) {
-    return `This action updates a #${id} flyGenu`;
+ async update(id: string, updateFlyGenusDto: UpdateFlyGenusDto): Promise<FlyGenus | null> {
+     await this.flyGenusRepository.update(id, updateFlyGenusDto);
+     return this.flyGenusRepository.findOne({where:{id}});
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} flyGenu`;
+  async remove(id: string): Promise<void> {
+    await this.flyGenusRepository.delete(id);
   }
 }

@@ -20,16 +20,16 @@ export class FlyGenusController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.flyGenusService.findOne(+id);
+    return this.flyGenusService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFlyGenuDto: UpdateFlyGenusDto) {
-    return this.flyGenusService.update(+id, updateFlyGenuDto);
+    return this.flyGenusService.update(id, updateFlyGenuDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.flyGenusService.remove(+id);
+    return this.flyGenusService.remove(id);
   }
 }

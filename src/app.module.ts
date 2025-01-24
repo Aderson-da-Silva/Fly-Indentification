@@ -2,8 +2,9 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FlyGenus } from './fly-genus/entities/fly-genus.entity';
-import { FlyGenusModule } from './fly-genus/fly-genus.module';
+import { FlyGenusModule } from './modules/fly-genus/fly-genus.module';
+import { AppConfigModule } from './config/config.module';
+import { FlyCharacteristicsModule } from './modules/fly-characteristics/fly-characteristics.module';
 
 @Module({
   imports: [
@@ -13,8 +14,9 @@ import { FlyGenusModule } from './fly-genus/fly-genus.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
-    //TypeOrmModule.forFeature([FlyGenus]),
-    FlyGenusModule
+    AppConfigModule,
+    FlyCharacteristicsModule,
+    FlyGenusModule,
   ],
   controllers: [AppController],
   providers: [AppService],
